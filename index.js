@@ -148,17 +148,17 @@ Employee.prototype.levelOfPerformance = function () {
     else return "low perfromance";
 };
 
-Employee.prototype.additionalFeedback = function (newFeedback, condition) {
+Employee.prototype.additionalFeedback = function (feedbacks, condition) {
     if (condition) {
-        this.feedback.push(newFeedback);
+        this.feedback.push(feedbacks);
     }
 };
 
-const emp = new Employee(1, "Alice", { communication: 95, efficiency: 85 }, ["Good job!"]);
-console.log("Avg Score:", emp.average());
-console.log("Level:", emp.levelOfPerformance());
-emp.additionalFeedback("Improve punctuality", emp.levelOfPerformance() === "Needs Improvement");
-console.log("Feedback:", emp.feedback);
+const employee = new Employee(1, "Jacky", { communication: 95, efficiency: 85 }, ["Great!"]);
+console.log("Average performance Score:", employee.average());
+console.log("Performance level:", employee.levelOfPerformance());
+employee.additionalFeedback("loyality should be improved", employee.levelOfPerformance() === "Low loyality ");
+console.log("Performance Feedback:", employee.feedback);
 
 
 
