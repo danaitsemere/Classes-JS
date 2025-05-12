@@ -15,28 +15,29 @@ FeatureToggle.prototype.toggleFeature = function (flag) {
     this.isEnabled = !!flag;
 };
 
-const feature = new FeatureToggle("New Feature", false, ["admins"]);
-if (feature.canAccess("admins")) console.log("Admin access"); else console.log("No admin access");
-if (feature.canAccess("user")) console.log("User access"); else console.log("No user access");
+const feature = new FeatureToggle("Feature", false, ["admins"]);
+if (feature.canAccess("betaTesters")) console.log("betaTesters access"); else console.log("No betaTester access");
+if (feature.canAccess("admins")) console.log("admins access"); else console.log("No admin access");
 
 function checkAccess(userRole) {
     switch (userRole) {
-        case "admins":
-            console.log(feature.canAccess(userRole) ? "Admin access" : "No admin access");
+        case "betaTester":
+            console.log(feature.canAccess(userRole) ? "betaTester access" : "No betaTester access");
             break;
-        case "user":
-            console.log(feature.canAccess(userRole) ? "User access" : "No user access");
+        case "admins":
+            console.log(feature.canAccess(userRole) ? "admin access" : "No admin access");
             break;
         default:
-            console.log("Unknown role");
+            console.log("Access in not known");
     }
 }
 
+checkAccess("betaTester");
 checkAccess("admins");
-checkAccess("user");
 
 feature.toggleFeature(true);
 
+console.log(feature.canAccess("betaTesters") ? "betaTester access after toggle" : "No betaTester access after toggle");
 console.log(feature.canAccess("admins") ? "Admin access after toggle" : "No admin access after toggle");
 
 
@@ -47,22 +48,22 @@ function TimeLog(freelancerName, projectDetails, logs) {
     this.logs = logs || [];
 }
 
-TimeLog.prototype.calculateTotalEarnings = function () {
-    return this.logs.reduce((total, log) => total + log.hoursWorked * this.projectDetails.hourlyRate, 0);
+TimeLog.prototype.totalEarnings = function () {
+    return this.logs.reduce((sum, log) => sum + log.hoursWorked * this.projectDetails.hourlyRate, 0);
 };
 
-TimeLog.prototype.filterLogsByDateRange = function (startDate, endDate) {
-    return this.logs.filter(log => log.date >= startDate && log.date <= endDate);
+TimeLog.prototype.datebyRange = function (firstDate, lastDate) {
+    return this.logs.filter(log => log.date >= firstDate && log.date <= lastDate);
 };
 
-TimeLog.prototype.exceedsWeeklyHours = function (dateToCheck) {
-    const weekStart = new Date(dateToCheck);
-    weekStart.setDate(dateToCheck.getDate() - dateToCheck.getDay()); // Start of the week (Sunday)
+TimeLog.prototype.weekHours = function (checkDate) {
+    const firstWeek = new Date(checkDate);
+    firstWeek.setDate(checkDate.getDate() - checkDate.getDay()); 
 
     let weeklyHours = 0;
     for (const log of this.logs) {
         const logDate = new Date(log.date);
-        if (logDate >= weekStart && logDate <= dateToCheck) {
+        if (logDate >= firstWeek && logDate <= checkDate) {
             weeklyHours += log.hoursWorked;
         }
     }
@@ -77,19 +78,19 @@ TimeLog.prototype.exceedsWeeklyHours = function (dateToCheck) {
 
 const project = { name: "Web Dev", hourlyRate: 50 };
 const logs = [
-    { date: "2024-11-03", hoursWorked: 8 },
-    { date: "2024-11-04", hoursWorked: 7 },
-    { date: "2024-11-05", hoursWorked: 9 },
-    { date: "2024-11-06", hoursWorked: 8 },
-    { date: "2024-11-07", hoursWorked: 9 },
-    { date: "2024-11-08", hoursWorked: 5 }
+    { date: "2025-08-12", hoursWorked: 7 },
+    { date: "2025-08-22", hoursWorked: 8 },
+    { date: "2025-08-14", hoursWorked: 7 },
+    { date: "2025-08-16", hoursWorked: 9 },
+    { date: "2025-08-17", hoursWorked: 8 },
+    { date: "2024-08-20", hoursWorked: 6 }
 ];
 
-const timeLog = new TimeLog("Alice", project, logs);
+const timeLog = new TimeLog("Monica", project, logs);
 
-console.log("Total Earnings:", timeLog.calculateTotalEarnings());
-console.log("Logs in range:", timeLog.filterLogsByDateRange("2024-11-01", "2024-11-05"));
-console.log("Exceeds 40 hours:", timeLog.exceedsWeeklyHours(new Date("2024-11-07")));
+console.log("Total Earnings Gained:", timeLog.totalEarnings());
+console.log("Logs in date range:", timeLog.datebyRange("2025-08-12", "2025-08-20"));
+console.log("Weekly hours exceeds 40 hours:", timeLog.weekHours(new Date("2025-08-16")));
 
 
 function Order(customer, items, status) {
