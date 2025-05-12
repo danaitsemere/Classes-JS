@@ -116,11 +116,11 @@ Order.prototype.urgentOrder = function () {
 };
 
 
-const order = new Order({ name: "A" }, [{ productName: "B", quantity: 1, unitPrice: 50 }], "pending");
-console.log("Cost:", order.totalCost());
+const order = new Order({ name: "Pizza" }, [{ productName: "Burger", quantity: 1, unitPrice: 50 }], "pending");
+console.log("Total cost :", order.totalCost());
 console.log("Urgency:", order.urgentOrder());
-order.orderStatus("paid");
-console.log("New Urgency:", order.urgentOrder());
+order.orderStatus("paid successfully");
+console.log("Another Urgency:", order.urgentOrder());
 
 function Employee(id, name, metrics, feedback) {
     this.id = id;
