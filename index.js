@@ -99,30 +99,28 @@ function Order(customer, items, status) {
     this.status = status;
 }
 
-Order.prototype.computeTotalCost = function () {
+Order.prototype.totalCost = function () {
     return this.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 };
 
-Order.prototype.updateOrderStatus = function (payment) {
-    this.status = payment === "paid" ? "processing" : (payment === "refunded" ? "cancelled" : this.status);
+Order.prototype.orderStatus = function (payment) {
+    this.status = payment === "order is paid" ? "order on processing" : (payment === "repaid" ? "order cancelled" : this.status);
 };
 
-Order.prototype.categorizeOrderUrgency = function () {
+Order.prototype.urgentOrder = function () {
     switch (this.status) {
         case "pending": return "High";
-        case "processing": return this.computeTotalCost() > 1000 ? "Medium" : "Low";
+        case "processing": return this.totalCost() > 1000 ? "Medium" : "Low";
         default: return "Low";
     }
 };
 
 
 const order = new Order({ name: "A" }, [{ productName: "B", quantity: 1, unitPrice: 50 }], "pending");
-console.log("Cost:", order.computeTotalCost());
-console.log("Urgency:", order.categorizeOrderUrgency());
-order.updateOrderStatus("paid");
-console.log("New Urgency:", order.categorizeOrderUrgency());
-
-
+console.log("Cost:", order.totalCost());
+console.log("Urgency:", order.urgentOrder());
+order.orderStatus("paid");
+console.log("New Urgency:", order.urgentOrder());
 
 function Employee(id, name, metrics, feedback) {
     this.id = id;
