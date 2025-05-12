@@ -168,28 +168,28 @@ function Course(title, instructor, students) {
     this.students = students || [];
 }
 
-Course.prototype.getCompletedStudentNames = function () {
+Course.prototype.studentCompletedCourse = function () {
     return this.students.filter(student => student.completionStatus === "completed")
         .map(student => student.name);
 };
 
-Course.prototype.countStudentsByExpertise = function (expertise) {
+Course.prototype.studentAccomplishedExercises = function (expertise) {
     return this.students.filter(student => student.expertise === expertise).length;
 };
 
-Course.prototype.instructorMessage = function () {
+Course.prototype.messageFromInstructor= function () {
     const studentCount = this.students.length;
-    if (studentCount > 5) return "Great job, teaching many students!";
-    else return "Keep growing your student base!";
+    if (studentCount > 5) return "Great job, you are an exemplary for many students!";
+    else return "Keep it up!";
 };
 
-const course = new Course("JS Basics", { name: "Jesica", expertise: "Web Dev" }, [
-    { name: "Amir", completionStatus: "completed", expertise: "Web Dev" },
-    { name: "Jackson", completionStatus: "incomplete", expertise: "Data Science" },
-    { name: "Wantya", completionStatus: "completed", expertise: "Web Dev" }
+const course = new Course("JS Basics", { name: "Jesica", expertise: "Backend" }, [
+    { name: "Amir", completionStatus: "completed", expertise: "Frontend Web Development " },
+    { name: "Jackson", completionStatus: "incomplete", expertise: "Product Management" },
+    { name: "Wantya", completionStatus: "completed", expertise: "Frontend Mobile Development" }
 ]);
 
-console.log("Completed:", course.getCompletedStudentNames());
-console.log("Web Dev Students:", course.countStudentsByExpertise("Web Dev"));
-console.log("Instructor Message:", course.instructorMessage());
+console.log("Completed courses:", course.studentCompletedCourse());
+console.log("Fronted Web Development students:", course.studentAccomplishedExercises("Frontend Mobile Development"));
+console.log("Message from instructor:", course.messageFromInstructor());
 
