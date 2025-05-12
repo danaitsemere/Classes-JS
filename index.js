@@ -129,7 +129,7 @@ function Employee(id, name, metrics, feedback) {
     this.feedback = feedback || [];
 }
 
-Employee.prototype.calculateAverageScore = function () {
+Employee.prototype.average = function () {
     let sum = 0;
     let count = 0;
     for (const metric in this.performanceMetrics) {
@@ -141,23 +141,23 @@ Employee.prototype.calculateAverageScore = function () {
     return count > 0 ? sum / count : 0;
 };
 
-Employee.prototype.classifyPerformanceLevel = function () {
-    const avg = this.calculateAverageScore();
-    if (avg >= 90) return "Excellent";
-    else if (avg >= 70) return "Good";
-    else return "Needs Improvement";
+Employee.prototype.levelOfPerformance = function () {
+    const performanceAverage = this.average();
+    if (performanceAverage >= 90) return "High performance";
+    else if (performanceAverage >= 70) return "medium performance";
+    else return "low perfromance";
 };
 
-Employee.prototype.addFeedback = function (newFeedback, condition) {
+Employee.prototype.additionalFeedback = function (newFeedback, condition) {
     if (condition) {
         this.feedback.push(newFeedback);
     }
 };
 
 const emp = new Employee(1, "Alice", { communication: 95, efficiency: 85 }, ["Good job!"]);
-console.log("Avg Score:", emp.calculateAverageScore());
-console.log("Level:", emp.classifyPerformanceLevel());
-emp.addFeedback("Improve punctuality", emp.classifyPerformanceLevel() === "Needs Improvement");
+console.log("Avg Score:", emp.average());
+console.log("Level:", emp.levelOfPerformance());
+emp.additionalFeedback("Improve punctuality", emp.levelOfPerformance() === "Needs Improvement");
 console.log("Feedback:", emp.feedback);
 
 
@@ -183,10 +183,10 @@ Course.prototype.instructorMessage = function () {
     else return "Keep growing your student base!";
 };
 
-const course = new Course("JS Basics", { name: "John", expertise: "Web Dev" }, [
-    { name: "Alice", completionStatus: "completed", expertise: "Web Dev" },
-    { name: "Bob", completionStatus: "incomplete", expertise: "Data Science" },
-    { name: "Charlie", completionStatus: "completed", expertise: "Web Dev" }
+const course = new Course("JS Basics", { name: "Jesica", expertise: "Web Dev" }, [
+    { name: "Amir", completionStatus: "completed", expertise: "Web Dev" },
+    { name: "Jackson", completionStatus: "incomplete", expertise: "Data Science" },
+    { name: "Wantya", completionStatus: "completed", expertise: "Web Dev" }
 ]);
 
 console.log("Completed:", course.getCompletedStudentNames());
